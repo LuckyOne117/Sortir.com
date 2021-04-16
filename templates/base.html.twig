@@ -14,6 +14,28 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <div>
+                <nav class="menu">
+                    <ul>
+                    {% if app.user %}
+                        <li><a href=""></a> </li>
+
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a> </li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Login</a> </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
         {% block body %}{% endblock %}
+    <footer class="footer">
+            <div class="container">
+                {% block footer_content %}{% endblock %}
+                &copy; {{ "now"|date("Y") }} - Sortie.com
+            </div>
+
+    </footer>
     </body>
 </html>
