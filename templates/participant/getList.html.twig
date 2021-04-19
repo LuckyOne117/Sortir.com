@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} New profile | {{ parent() }} {% endblock %}
+
+{% block stylesheet %} {% endblock %}
+
+{% block body %}
+
+    <div class="card m-5 p-5">
+        <div class="row p-0 m-0">
+            <div class="col-md-6 p-0">
+                <h5 class="font-weight-bold">Liste des participants</h5>
+            </div>
+            <div class="col-md-6 p-0 d-flex justify-content-end">
+                <a type="button" href="{{ path('participant_get_form', {'idParticipant': -1}) }}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Créer un participant
+                </a>
+            </div>
+        </div>
+        <hr>
+
+        <div id="div_table_campus">
+            <table id="table_campus" class="table table-striped mt-5 w-100">
+                <thead>
+                <th>Identifiant</th>
+                <th>Pseudo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Campus</th>
+                <th>Actions</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        $.ajax({
+            url: '{{ path('participant_get_list_json') }}',
+            type: 'POST',
+            success: function(jsonResponse) {
+                $('#table_campus').DataTable({
+                    data: jsonResponse,
+                    columns: [
+                        { "data": "id" },
+                        { "data": "pseudo" },
+                        { "data": "nom" },
+                        { "data": "prenom" },
+                        { "data": "telephone" },
+                        { "data": "mail" },
+                        { "data": "campus" },
+                        { "data": "actions" }
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [ 0 ],
+                            "className": "d-none"
+                        },
+                        {
+                            "targets": [ 1, 2, 3, 4, 5, 6, 7 ],
+                            "className": "text-center"
+                        },
+                        {
+                            "targets": [ 7 ],
+                            "orderable": false
+                        }
+                    ],
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        search :
+                            "",
+                        paginate: {
+                            previous: '<i class="fas fa-chevron-left"></i>',
+                            next: '<i class="fas fa-chevron-right"></i>'
+                        }
+                    }
+                });
+                $('.dataTables_filter').addClass("float-left");
+                $('.dataTables_filter input').attr("placeholder", "Rechercher ...").addClass("form-control");
+            }
+        });
+    </script>
+
+{% endblock %}
