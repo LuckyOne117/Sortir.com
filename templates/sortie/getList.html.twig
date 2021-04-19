@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ title }} | {{ parent() }} {% endblock %}
+
+{% block stylesheet %} {% endblock %}
+
+{% block body %}
+
+    <div class="card m-5 p-5">
+        <div class="row p-0 m-0">
+            <div class="col-md-6 p-0">
+                <h5 class="font-weight-bold">Liste des sorties</h5>
+            </div>
+            <div class="col-md-6 p-0 d-flex justify-content-end">
+                <a type="button" href="{{ path('sortie_get_form', {'idSortie': -1}) }}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Créer une sortie
+                </a>
+            </div>
+            <button id="btn_filters_show" class="btn p-0" onclick="return showBlockFilters();">Ajouter des filtres</button>
+            <button id="btn_filters_hide" class="btn p-0 d-none" onclick="return hideBlockFilters();">Masquer les filtres</button>
+        </div>
+
+        <div id="block_filters" class="d-none mt-4">
+            <form id="form_filters" class="form-inline">
+                <div class="col-sm-7 p-0">
+                    <div class="form-group mb-3 col-sm-12 p-0">
+                        <label class="col-form-label col-sm-3 justify-content-start">
+                            Le nom de la sortie contient :
+                        </label>
+                        <div class="col-sm-6 p-0">
+                            <input class="form-control" type="text" name="filtre_nom"> 
+                        </div>       
+                    </div>
+
+                    <div class="form-group mb-3 col-sm-12 p-0">
+                        <label class="col-form-label col-sm-1 justify-content-start">
+                            Entre
+                        </label>
+                        <div class="col-sm-8 p-0">
+                            <input id="search_sortie_dateDebut" class="form-control" type="datetime-local" name="filtre_dateDebut">
+                        </div>
+                        <div class="col-sm-1 p-0">
+                            <button type="button" class="btn" onclick="deleteValue('#search_sortie_dateDebut')">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        </div>   
+                    </div>
+
+                    <div class="form-group mb-3 col-sm-12 p-0">
+                        <label class="col-sm-1 col-form-label justify-content-start">
+                            et
+                        </label>
+                        <div class="col-sm-8 p-0">
+                            <input id="search_sortie_dateFin" class="form-control" type="datetime-local" name="filtre_dateFin">
+                        </div>
+                        <div class="col-sm-1 p-0">
+                            <button type="button" class="btn" onclick="deleteValue('#search_sortie_dateFin')">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
+                        </div>  
+                    </div>
+                </div>
+
+                <div class="col-sm-5 p-0">
+                    <div class="form-group mb-3">
+                        <label class="col-sm-8 col-form-label justify-content-start">
+                            Dont je suis l'organisateur/trice
+                        </label>
+                        <div class="col-sm-1">
+                            <input class="form-check-input" type="checkbox" name="filtre_organisateur" value="check">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="col-sm-8 col-form-label justify-content-start">
+                            Auxquelles je suis inscrit/e
+                        </label>
+                        <div class="col-sm-1">
+                            <input class="form-check-input" type="checkbox" name="filtre_inscrit" value="check">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="col-sm-8 col-form-label justify-content-start">
+                            Auxquelles je ne suis pas inscrit/e
+                        </label>
+                        <div class="col-sm-1">
+                            <input class="form-check-input" type="checkbox" name="filtre_non_inscrit" value="check">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="col-sm-8 col-form-label justify-content-start">
+                            Sorties passées
+                        </label>
+                        <div class="col-sm-1">
+                            <input class="form-check-input" type="checkbox" name="filtre_passee" value="check">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 ml-auto mr-auto">
+                    <button type="submit" class="btn btn-success">Filtrer</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="div_table_sorties">
+            <table id="table_sorties" class="table table-striped mt-5 w-100">
+                <thead>
+                    <th>Identifiant</th>
+                    <th class="w-10">Nom de la sortie</th>
+                    <th class="w-20">Date de la sortie</th>
+                    <th class="w-20">Clôture inscriptions</th>
+                    <th class="w-10">Inscrits/Places</th>
+                    <th class="w-10">Etat</th>
+                    <th>Inscrit</th>
+                    <th class="w-20">Organisateur</th>
+                    <th>Actions</th>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        function showBlockFilters() {
+            $('#btn_filters_show').addClass('d-none');
+            $('#block_filters').removeClass('d-none');
+            $('#btn_filters_hide').removeClass('d-none');
+        }
+
+        function hideBlockFilters() {
+            $('#btn_filters_show').removeClass('d-none');
+            $('#block_filters').addClass('d-none');
+            $('#btn_filters_hide').addClass('d-none');
+        }
+
+        $.ajax({
+            url: '{{ path('sortie_get_list_json') }}',
+            type: 'POST',
+            success: function(jsonResponse) {
+                $('#table_sorties').DataTable({
+                    data: jsonResponse,
+                    columns: [
+                        { "data": "id" },
+                        { "data": "nom" },
+                        { "data": "dateDebut" },
+                        { "data": "dateCloture" },
+                        { "data": "nbMaxInscriptions" },
+                        { "data": "etat" },
+                        { "data": "isInscrit" },
+                        { "data": "organisateur" },
+                        { "data": "actions" }
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [ 0 ],
+                            "className": "d-none"
+                        },
+                        {
+                            "targets": [ 1, 2, 3, 4, 5, 6, 7, 8 ],
+                            "className": "text-center"
+                        },
+                        {
+                            "targets": [ 8 ],
+                            "orderable": false
+                        }
+                    ],
+                    searching: false,
+                    filter: false,
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        paginate: {
+                            previous: '<i class="fas fa-chevron-left"></i>',
+                            next: '<i class="fas fa-chevron-right"></i>'
+                        }
+                    }
+                }); 
+            }
+        });
+    </script>
+
+{% endblock %}

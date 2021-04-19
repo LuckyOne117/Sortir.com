@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ title }} | {{ parent() }} {% endblock %}
+
+{% block stylesheet %} {% endblock %}
+
+{% block body %}
+
+    <div class="card m-5 p-5">
+        <h3 class="title">Détail</h3>
+
+        <div class="container mt-5">
+            <div class="row w-100">
+                <div class="col-sm-4">
+                    <p>Nom de la sortie : {{ oSortie.nom }}</p>
+                    <p>Campus : {{ oSortie.organisateur.campus.nom }}</p>
+                    <p>Rue : {{ oSortie.lieu.rue }}</p>
+
+                    {% if oSortie.descriptionInfos %}
+                        <p>Description et infos : {{ oSortie.descriptionInfos }}</p>
+                    {% else %}
+                        <p>Description et infos : Aucun renseignement</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-sm-4">
+                    <p>Date et heure de la sortie : {{ oSortie.dateDebut|date('d/m/Y H:i') }}</p>
+                    <p>Lieu : {{ oSortie.lieu.nom }}</p>
+                    <p>Code postal : {{ oSortie.lieu.ville.codePostal }}</p>
+                    <p>Nombre de places : {{ oSortie.nbInscriptionsMax }} {{ oSortie.nbInscriptionsMax > 1 ? "places" : "place" }}</p>
+                </div>
+
+                <div class="col-sm-4">
+                    <p>Date limite d'inscription : {{ oSortie.dateCloture|date('d/m/Y H:i') }}</p>
+                    <p>Ville : {{ oSortie.lieu.ville.nom }}</p>
+
+                    {% if oSortie.duree %}
+                        <p>Durée : {{ oSortie.duree }} {{ oSortie.duree > 1 ? "minutes" : "minute" }}</p>
+                    {% else %}
+                        <p>Durée : Aucun renseignement</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="div_table_participants" class="mt-5">
+                <h5 class="font-weight-bold">Liste des participants</h5>
+                <table id="table_participants" class="table table-striped mt-3 w-100">
+                    <thead>
+                    <th class="w-30">Pseudo</th>
+                    <th class="w-70">Nom</th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        $.ajax({
+            url: '{{ path('participant_get_list_json_by_sortie') }}',
+            type: 'POST',
+            data: {
+                idSortie: {{ oSortie.id }}
+            },
+            success: function(jsonResponse) {
+                $('#table_participants').DataTable({
+                    data: jsonResponse,
+                    columns: [
+                        { "data": "pseudo" },
+                        { "data": "nom" }
+                    ],
+                    columnDefs: [
+                        {
+                            "targets": [ 0, 1 ],
+                            "className": "text-center"
+                        }
+                    ],
+                    searching: false,
+                    filter: false,
+                    info: false,
+                    lengthChange: false,
+                    language: {
+                        paginate: {
+                            previous: '<i class="fas fa-chevron-left"></i>',
+                            next: '<i class="fas fa-chevron-right"></i>'
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+{% endblock %}
