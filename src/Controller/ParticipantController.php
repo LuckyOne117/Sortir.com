@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/participant", name="participant")
- * @IsGranted("ROLE_USER")
+// * @IsGranted("ROLE_USER")
  * Class ParticipantController
  * @package App\Controller
  */
@@ -27,7 +27,7 @@ class ParticipantController extends AbstractController
     /**
      * Affiche la liste des participants
      * @Route("/getList", name="_get_list")
-     * @IsGranted("ROLE_ADMIN")
+//     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function getList()
