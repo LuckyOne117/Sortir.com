@@ -5,7 +5,7 @@
 {% block body %}
 <form method="post" xmlns="http://www.w3.org/1999/html">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'connexion') }}</div>
     {% endif %}
 
     {% if app.user %}
@@ -42,4 +42,5 @@
     <div>
         <a href="{{ path('app_forgot_password_request') }}" title="reset password">Mot de passe oublié ?</a>
     </div>
+    {%  set role = "ROLE_ADMIN" %}
 {% endblock %}
