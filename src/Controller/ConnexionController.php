@@ -19,8 +19,8 @@ class ConnexionController extends AbstractController
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-//        return $this->redirectToRoute('sortie/getList.html.twig');
-        return $this->render('connexion/login.html.twig', [
+       return $this->render('sortie/getList.html.twig', [
+//        return $this->render('connexion/login.html.twig', [
             'title' => 'Connexion',
             'error' => $error,
             'lastUsername' => $lastUsername
