@@ -533,6 +533,9 @@
             "./config/packages/reset_password.yaml"
         ]
     },
+    "twbs/bootstrap": {
+        "version": "v5.0.0-beta3"
+    },
     "twig/extra-bundle": {
         "version": "v3.3.0"
     },
