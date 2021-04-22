@@ -15,7 +15,7 @@
     {% endif %}
 
     <label for="inputEmail">Adresse mail:</label>
-    <input type="email" value="{{ app.user.email }}" name="email" id="inputEmail" class="form-control" required autofocus>
+    <input type="mail"   name="mail" id="inputEmail" class="form-control" required autofocus> {# value="{{ app.user.last_username }}" #}
     <label for="inputPassword">Mot de passe:</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
