@@ -44,7 +44,7 @@ class Campus
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
 
@@ -59,7 +59,7 @@ class Campus
         return $this->participants;
     }
 
-    public function addParticipant(Participant $participant): self
+    public function addParticipant(?Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
             $this->participants[] = $participant;
