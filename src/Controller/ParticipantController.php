@@ -144,7 +144,8 @@ class ParticipantController extends AbstractController
      * @param $idParticipant
      * @return RedirectResponse|Response
      */
-    public function getForm(Request $request, UserPasswordEncoderInterface $encoder, $idParticipant)
+
+   /* public function getForm(Request $request, UserPasswordEncoderInterface $encoder, $idParticipant)
     {
         //Récupération de l'entity manager
         $em = $this->getDoctrine()->getManager();
@@ -203,7 +204,7 @@ class ParticipantController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
+*/
     /**
      * @Route("/getListJson", name="_get_list_json")
      * @param Request $request
