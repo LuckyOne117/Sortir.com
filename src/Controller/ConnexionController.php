@@ -6,7 +6,6 @@ use App\Entity\Participant;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 class ConnexionController extends AbstractController
 {
     /**
@@ -14,9 +13,9 @@ class ConnexionController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        if ($this->getUser()) {
-             return $this->redirectToRoute('getList');
-         }
+//        if ($this->getUser()) {
+//             return $this->redirectToRoute('getList');
+//         }
 
         $em = $this->getDoctrine()->getManager();
         $participantRepository = $em->getRepository(Participant::class);
@@ -33,7 +32,7 @@ class ConnexionController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logout", name="app_logout")
      */
     public function logout() {
 
