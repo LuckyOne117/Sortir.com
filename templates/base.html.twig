@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Sortir.com{% endblock %}</title>
@@ -18,26 +18,29 @@
         <header>
             <div>
                 <nav class="menu">
-                    <ul>
-                    {% if app.user %}
-                        <li><a href=""></a> </li>
 
-                        <li><a href="{{ path('app_logout') }}">Déconnexion</a> </li>
+                    {% if app.user %}
+                        <button><a href="{{ path('participant_show_profile') }}">Profil</a></button>
+                        <button><a href="{{ path('sortie_get_list') }}">Sortie</a></button>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <button><a href="{{ path('admin') }}">Admin</a></button>
+                        {% endif%}
+                            <button><a href="{{ path('app_logout') }}">Déconnexion</a></button>
                     {% else %}
-                        <li><a href="{{ path('app_login') }}">Login</a> </li>
+                        <button><a href="{{ path('app_login') }}">Login</a></button>
                     {% endif %}
-                    </ul>
+
                 </nav>
             </div>
         </header>
         {% block body %}{% endblock %}
-    <footer class="footer">
+        <footer class="footer">
             <div class="container">
                 {% block footer_content %}{% endblock %}
                 &copy; {{ "now"|date("Y") }} - Sortie.com
             </div>
 
-    </footer>
+        </footer>
         {% block javascripts %}
 
 
