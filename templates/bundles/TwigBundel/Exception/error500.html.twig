@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Page en construction{% endblock %}
+
+{% block body%}
+<h1> Serveur non serviable </h1>
+<h1> Réessayez plus tard </h1>
+<p>Code de l'erreur : {{ status_code }}</p>
+    <p>Message de l'erreur : {{ status_text }}</p>
+    <img src="https://4.bp.blogspot.com/-EbpCtWa8-9I/W6cHJDG7tgI/AAAAAAAAClM/21g-RMCFLBImC6p-ufZZdWeBFwiMvVycgCLcBGAs/s758/500_Error_Log_File_Stack_Trace_Animation.gif" alt="funny GIF erreur 500" width="100%">
+{% endblock %}

@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block title %}Page en construction{% endblock %}
 
-{% block body%}
-<h1> Page en construction </h1>
-<h1> Réessayez plus tard </h1>
+{% block body %}
+<h1> Accès interdit </h1>
+<h1> Vous n'avez pas la permission de voir cette page </h1>
 <p>Code de l'erreur : {{ status_code }}</p>
+    <p>Message de l'erreur : {{ status_text }}</p>
     <img src="https://https://webartdevelopers.com/blog/wp-content/uploads/2020/10/403-page-no-access.gif" alt="funny GIF erreur 403" width="100%">
 {% endblock %}
